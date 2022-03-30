@@ -19,4 +19,15 @@ export default class UsersController {
       res.status(StatusCodes.CREATED).json(token);
     }
   };
+
+  public getToken = async (req: Request, res: Response): Promise<void> => {
+    const { username, password } = req.body;
+    const token: { token: string } | undefined = await this
+      .usersService.getToken(username, password);
+    if (!token) {
+      res.status(StatusCodes.UNAUTHORIZED).json({ error: 'Username or password invalid' });
+    } else {
+      res.status(StatusCodes.OK).json(token);
+    }
+  };
 }
