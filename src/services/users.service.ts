@@ -23,4 +23,13 @@ export default class UsersService {
 
     return tokenGenerator(username);
   };
+
+  public getToken = async (username: string, password: string)
+  : Promise<{ token: string } | undefined> => {
+    const user = await this.usersModel.findByName(username);
+
+    if (!user || user.password !== password) return undefined;
+
+    return tokenGenerator(username);
+  };
 }
