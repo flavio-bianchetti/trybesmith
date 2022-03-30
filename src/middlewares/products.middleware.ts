@@ -11,7 +11,6 @@ const amountSchema = Joi.object({
 });
 
 const verifyIndice = (errorMessage: string, indice: string): { code: number, error: string } => {
-  console.log(errorMessage);
   switch (true) {
     case errorMessage.includes('required'):
       return { code: StatusCodes.BAD_REQUEST, error: `${indice} is required` };
