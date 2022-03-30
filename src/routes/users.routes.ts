@@ -20,4 +20,11 @@ router.post(
   usersController.create,
 );
 
+router.post(
+  '/login',
+  validateUsername,
+  validatePassword,
+  usersController.getToken,
+);
+
 export default router;
