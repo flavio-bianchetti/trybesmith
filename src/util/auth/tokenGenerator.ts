@@ -1,11 +1,9 @@
 import jwt from 'jsonwebtoken';
+import { IToken } from '../../interfaces/IToken';
 
-const tokenGenerator = (username: string): { token: string } | undefined => {
+const tokenGenerator = (data: IToken): { token: string } | undefined => {
   const SECRET = 'Trybe.Turma15.TriboB';
   try {
-    const data = {
-      username,
-    };
     const token = jwt.sign({ data }, SECRET, {
       expiresIn: '7d',
       algorithm: 'HS256',
