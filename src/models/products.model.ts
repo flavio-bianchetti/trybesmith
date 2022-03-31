@@ -24,4 +24,25 @@ export default class ProductsModel {
     const { insertId } = dataInserted;
     return { id: insertId, ...product };
   };
+
+  public getById = async (id: number): Promise<IProduct> => {
+    const [result] = await this.connection
+      .execute<RowDataPacket[]>('SELECT * FROM Trybesmith.Products WHERE id = ?;', [id]);
+    const [rows] = result;
+    return rows as IProduct;
+  };
+
+  public update = async (product: IProduct): Promise<IProduct | undefined> => {
+    const { id, name, amount, orderId } = product;
+    try {
+      await this.connection.execute<ResultSetHeader>(
+        'UPDATE Trybesmith.Products SET name = ?, amount = ?, orderId = ? WHERE id = ?;',
+        [name, amount, orderId, id],
+      );
+      return { id, name, amount, orderId };
+    } catch (error) {
+      console.log(error);
+      return undefined;
+    }
+  };
 }
