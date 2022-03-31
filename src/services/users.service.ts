@@ -21,7 +21,7 @@ export default class UsersService {
     
     if (!newUser) return undefined;
 
-    return tokenGenerator(username);
+    return tokenGenerator({ id: newUser.id, username });
   };
 
   public getToken = async (username: string, password: string)
@@ -30,6 +30,6 @@ export default class UsersService {
 
     if (!user || user.password !== password) return undefined;
 
-    return tokenGenerator(username);
+    return tokenGenerator({ id: user.id, username });
   };
 }
