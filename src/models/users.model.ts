@@ -18,6 +18,16 @@ export default class UserModel {
     return user;
   };
 
+  public findById = async (userId: number): Promise<IUser> => {
+    const result = await this.connection.execute(
+      'SELECT * FROM Trybesmith.Users WHERE id = ?;',
+      [userId],
+    );
+    const [rows] = result;
+    const [user] = rows as IUser[];
+    return user;
+  };
+
   public create = async (user: IUser): Promise<IUser> => {
     const { username, classe, level, password } = user;
 
