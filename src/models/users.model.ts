@@ -1,4 +1,4 @@
-import { Pool, ResultSetHeader } from 'mysql2/promise';
+import { Pool, ResultSetHeader, RowDataPacket } from 'mysql2/promise';
 import { IUser } from '../interfaces/IUser';
 
 export default class UserModel {
@@ -8,8 +8,8 @@ export default class UserModel {
     this.connection = connection;
   }
 
-  public findByName = async (userName: string): Promise<IUser> => {
-    const result = await this.connection.execute(
+  public findByName: (userName: string) => Promise<IUser> = async (userName): Promise<IUser> => {
+    const result = await this.connection.execute<RowDataPacket[]>(
       'SELECT * FROM Trybesmith.Users WHERE username = ?;',
       [userName],
     );
@@ -18,8 +18,8 @@ export default class UserModel {
     return user;
   };
 
-  public findById = async (userId: number): Promise<IUser> => {
-    const result = await this.connection.execute(
+  public findById: (userId: number) => Promise<IUser> = async (userId): Promise<IUser> => {
+    const result = await this.connection.execute<RowDataPacket[]>(
       'SELECT * FROM Trybesmith.Users WHERE id = ?;',
       [userId],
     );
@@ -28,7 +28,7 @@ export default class UserModel {
     return user;
   };
 
-  public create = async (user: IUser): Promise<IUser> => {
+  public create: (user: IUser) => Promise<IUser> = async (user): Promise<IUser> => {
     const { username, classe, level, password } = user;
 
     const result = await this.connection.execute<ResultSetHeader>(
