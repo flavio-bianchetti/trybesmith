@@ -8,13 +8,13 @@ export default class ProductsModel {
     this.connection = connection;
   }
 
-  public getAll = async (): Promise<IProduct[]> => {
+  public getAll: () => Promise<IProduct[]> = async (): Promise<IProduct[]> => {
     const [result] = await this.connection
       .execute<RowDataPacket[]>('SELECT * FROM Trybesmith.Products;');
     return result as IProduct[];
   };
 
-  public create = async (product: IProduct): Promise<IProduct> => {
+  public create: (p: IProduct) => Promise<IProduct[]> = async (product): Promise<IProduct> => {
     const { name, amount } = product;
     const result = await this.connection.execute<ResultSetHeader>(
       'INSERT INTO Trybesmith.Products (name, amount) VALUES (?, ?);',
@@ -25,14 +25,15 @@ export default class ProductsModel {
     return { id: insertId, ...product };
   };
 
-  public getById = async (id: number): Promise<IProduct> => {
+  public getById: (id: number) => Promise<IProduct> = async (id): Promise<IProduct> => {
     const [result] = await this.connection
       .execute<RowDataPacket[]>('SELECT * FROM Trybesmith.Products WHERE id = ?;', [id]);
     const [rows] = result;
     return rows as IProduct;
   };
 
-  public update = async (product: IProduct): Promise<IProduct | undefined> => {
+  public update: (p: IProduct) => Promise<IProduct | undefined> 
+  = async (product: IProduct): Promise<IProduct | undefined> => {
     const { id, name, amount, orderId } = product;
     try {
       await this.connection.execute<ResultSetHeader>(
