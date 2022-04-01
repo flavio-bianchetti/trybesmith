@@ -9,9 +9,11 @@ export default class ProductsService {
     this.productsModel = new ProductsModel(connection);
   }
 
-  public getAll = async (): Promise<IProduct[]> =>
+  public getAll: () => Promise<IProduct[] | undefined>
+  = async (): Promise<IProduct[] | undefined> =>
     this.productsModel.getAll();
 
-  public create = async (product: IProduct): Promise<IProduct> =>
+  public create: (product: IProduct) => Promise<IProduct | undefined>
+  = async (product): Promise<IProduct | undefined> =>
     this.productsModel.create(product);
 }
