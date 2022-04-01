@@ -10,14 +10,24 @@ export default class ProductsController {
     this.productsService = new ProductsService();
   }
 
-  public getAll = async (_req: Request, res: Response): Promise<void> => {
-    const products: IProduct[] = await this.productsService.getAll();
-    res.status(StatusCodes.OK).json(products);
+  public getAll: (req: Request, res: Response) => Promise<void>
+  = async (_req, res): Promise<void> => {
+    const products: IProduct[] | undefined = await this.productsService.getAll();
+    if (!products) {
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error' });
+    } else {
+      res.status(StatusCodes.OK).json(products);
+    }
   };
 
-  public create = async (req: Request, res: Response): Promise<void> => {
+  public create: (req: Request, res: Response) => Promise<void>
+  = async (req, res): Promise<void> => {
     const product: IProduct = req.body;
-    const item: IProduct = await this.productsService.create(product);
-    res.status(StatusCodes.CREATED).json({ item });
+    const item: IProduct | undefined = await this.productsService.create(product);
+    if (!item) {
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error' });
+    } else {
+      res.status(StatusCodes.CREATED).json({ item });
+    }
   };
 }
