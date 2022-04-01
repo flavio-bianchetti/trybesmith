@@ -10,7 +10,8 @@ export default class UsersService {
     this.usersModel = new UsersModel(connection);
   }
 
-  public create = async (user: IUser): Promise<{ token: string } | undefined> => {
+  public create: (user: IUser) => Promise<{ token: string } | undefined>
+  = async (user): Promise<{ token: string } | undefined> => {
     const { username } = user;
 
     const result = await this.usersModel.findByName(username);
@@ -19,7 +20,7 @@ export default class UsersService {
 
     const newUser = await this.usersModel.create(user);
     
-    if (!newUser) return undefined;
+    if (!newUser || !newUser.id) return undefined;
 
     return tokenGenerator({ id: newUser.id, username });
   };
