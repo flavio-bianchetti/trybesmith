@@ -14,7 +14,7 @@ export default class ProductsModel {
     return result as IProduct[];
   };
 
-  public create: (p: IProduct) => Promise<IProduct[]> = async (product): Promise<IProduct> => {
+  public create: (p: IProduct) => Promise<IProduct> = async (product): Promise<IProduct> => {
     const { name, amount } = product;
     const result = await this.connection.execute<ResultSetHeader>(
       'INSERT INTO Trybesmith.Products (name, amount) VALUES (?, ?);',
