@@ -10,7 +10,8 @@ export default class UsersController {
     this.usersService = new UsersService();
   }
 
-  public create = async (req: Request, res: Response): Promise<void> => {
+  public create: (req: Request, res: Response) => Promise<void>
+  = async (req, res): Promise<void> => {
     const user: IUser = req.body;
     const token: { token: string } | undefined = await this.usersService.create(user);
     if (!token) {
@@ -20,8 +21,9 @@ export default class UsersController {
     }
   };
 
-  public getToken = async (req: Request, res: Response): Promise<void> => {
-    const { username, password } = req.body;
+  public getToken: (req: Request, res: Response) => Promise<void>
+  = async (req, res): Promise<void> => {
+    const { username, password }: IUser = req.body;
     const token: { token: string } | undefined = await this
       .usersService.getToken(username, password);
     if (!token) {
